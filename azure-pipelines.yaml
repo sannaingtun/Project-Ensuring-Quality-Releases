@@ -153,7 +153,7 @@ stages:
       # ToDo: Provide <environment name> you created in your DevOps project
       - deployment: FakeRestAPI
         pool:
-          vmImage: 'Ubuntu-18.04'
+          vmImage: 'ubuntu-latest'
         environment: DeployVM # ToDo
         strategy:
           runOnce:
@@ -179,7 +179,7 @@ stages:
       #--------------------------------------------#
       # Selenium | Functional UI Tests
       # ToDo:
-      - deployment: VMDeploy
+      - deployment: myApplication-vm
         displayName: Selenium Tests
         environment:
           name: myApplication-vm # ToDo: Change/provide a name
