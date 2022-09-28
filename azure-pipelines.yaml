@@ -182,9 +182,9 @@ stages:
       - deployment: DeployVM
         displayName: Selenium Tests
         environment:
-          name: myApplication-vm # ToDo: Change/provide a name
+          name: DeployVM # ToDo: Change/provide a name
           resourceType: VirtualMachine
-          tags: selenium
+          #tags: selenium
         strategy:
           runOnce:
             deploy:
@@ -203,13 +203,51 @@ stages:
                       sudo apt-get install python3-pip -y
                       sudo apt-get install unzip -y
                       sudo apt-get install -y chromium-browser
+                      sudo apt-get install -y chromium-chromedriver
                       pip3 install selenium
 
                       #  ToDo: Add chromedriver executable to path
-                      export PATH=$PATH:/path/to/chromedriver     
+                      export PATH=$PATH:/path/to/chromedriver
+                      ls -la
+                      rm chromedriver*
+                      ls -la
+                      wget "https://chromedriver.storage.googleapis.com/106.0.5249.61/chromedriver_linux64.zip"
+                      pwd
+                      echo $PATH
+                      ls -la     
 
                       # ToDo: Write commands for deploying the UI Test Suite (published zip artifact) to the linux VM and execute the Test Suite
                       # ToDo: Direct the output of the Selenium Test Suite to a log file
+                - task: ExtractFiles@1
+                  displayName: 'Extract Files'
+                  inputs:
+                    archiveFilePatterns: '*chromedriver_linux64.zip'
+                    destinationFolder: '$(System.DefaultWorkingDirectory)'
+                    cleanDestinationFolder: false
+                - task: Bash@3
+                  displayName: 'Copy Files to bin'
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      #! /bin/bash
+                      sudo cp chromedriver /usr/bin
+                      pwd
+                      echo $PATH
+                      ls -la
+                      echo "Completed Copying"
+                - task: Bash@3
+                  displayName: 'Running Selenium Test'
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      #! /bin/bash
+                      unzip -o $(Pipeline.Workspace)/drop-selenium-tests/$(Build.BuildId)-selenium-tests.zip -d .
+                      pwd
+                      echo $PATH
+                      ls -la
+                      python3 ui_Test.py > ui-test.log
+                      ls -la
+                      cat ui-test.log
   
   - stage: Test
     jobs:
