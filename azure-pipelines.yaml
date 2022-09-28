@@ -4,11 +4,13 @@ name: Azure Pipelines
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 trigger:
-- main
+- master
 
 # ToDo: Replace the agent pool name, if you are using Udacity Cloud lab. 
 # Otherwise, comment out the line below. 
-pool: myAgentPool
+#pool: myAgentPool
+pool:
+  vmImage: ubuntu-latest
 
 variables:
   python.version: '3.7.6'
@@ -45,7 +47,7 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         backendServiceArm: '$(azureServiceConnectionId)'
         backendAzureRmResourceGroupName: 'Azuredevops'
-        backendAzureRmStorageAccountName: 'tfstate281845088'
+        backendAzureRmStorageAccountName: 'tfstate1253325089'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'test.terraform.tfstate'
 
