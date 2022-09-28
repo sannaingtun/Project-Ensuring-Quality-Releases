@@ -33,3 +33,17 @@ stages:
       displayName: 'Terrafom installation'
       inputs:
         terraformVersion: '1.2.9'
+    
+    # Run Terraform Destroy on the pipeline agent 
+    # ToDo: Replace the resource group name, storage account name, and container name below
+    - task: TerraformTaskV3@3
+      displayName: 'Terrafom Destroy'
+      inputs:
+        provider: 'azurerm'
+        command: 'destroy'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+        backendServiceArm: '$(azureServiceConnectionId)'
+        backendAzureRmResourceGroupName: 'Azuredevops'
+        backendAzureRmStorageAccountName: 'tfstate1253325089'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'test.terraform.tfstate'
