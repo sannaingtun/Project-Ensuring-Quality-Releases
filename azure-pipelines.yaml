@@ -179,7 +179,7 @@ stages:
       #--------------------------------------------#
       # Selenium | Functional UI Tests
       # ToDo:
-      - deployment: myApplication-vm
+      - deployment: DeployVM
         displayName: Selenium Tests
         environment:
           name: myApplication-vm # ToDo: Change/provide a name
