@@ -181,12 +181,10 @@ stages:
       # ToDo:
       - deployment: DeployForUITest
         displayName: Selenium Tests
-        pool:
-          vmImage: 'ubuntu-latest'
         environment:
-          name: DeployVM # ToDo: Change/provide a name
-          #resourceType: VirtualMachine
-          #tags: selenium
+          name: myApplicationvm # ToDo: Change/provide a name
+          resourceType: VirtualMachine
+          tags: selenium
         strategy:
           runOnce:
             deploy:
