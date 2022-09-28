@@ -245,10 +245,19 @@ stages:
                       pwd
                       echo $PATH
                       ls -la
-                      python3 login.py > ui-test.log
+                      sudo mkdir -p /var/logs/selenium && sudo chmod 664 /var/logs/selenium
+                      python3 login.py 2>&1 | sudo tee -a /var/logs/selenium/ui_tests.log
                       ls -la
-                      cat ui-test.log
-
+                      cd $(System.DefaultWorkingDirectory)
+                      mkdir -p logs/selenium
+                      sudo cp /var/logs/selenium/ui_tests.log logs/selenium/ui_tests.log
+                      sudo chmod 775 logs/selenium/ui_tests.log
+                      cat logs/selenium/ui_tests.log
+                - task: PublishPipelineArtifact@1
+                  displayName: Publish logs from Selenium tests
+                  inputs:
+                    targetPath: '$(System.DefaultWorkingDirectory)/logs/selenium/ui_tests.log'
+                    artifactName: 'drop-selenium-log'
   - stage: Test
     jobs:
       - job: IntegrationTest
