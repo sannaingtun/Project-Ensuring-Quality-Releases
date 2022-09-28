@@ -243,7 +243,7 @@ stages:
                     targetType: 'inline'
                     script: |
                       #! /bin/bash
-                      unzip -o $(Pipeline.Workspace)/drop-selenium-tests/$(Build.BuildId)-selenium-tests.zip -d .
+                      unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d .
                       pwd
                       echo $PATH
                       ls -la
